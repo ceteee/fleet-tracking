@@ -1,0 +1,29 @@
+# ===== Go =====
+bin/
+dist/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# ===== Env =====
+.env
+.env.local
+.env.*.local
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
+
+# ===== IDE =====
+.vscode/
+.idea/
+
+# ===== Logs =====
+*.log
+
+# ===== Docker =====
+docker-data/
