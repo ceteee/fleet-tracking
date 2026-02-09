@@ -19,7 +19,7 @@ func NewPublisher(conn *amqp.Connection) (*Publisher, error) {
 
 	err = ch.ExchangeDeclare(
 		"fleet.events",
-		"fanout",
+		"topic",
 		true,
 		false,
 		false,

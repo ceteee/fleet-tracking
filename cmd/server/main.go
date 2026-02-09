@@ -1,10 +1,10 @@
 package main
 
 import (
-	"database/sql"
 	"fleet-management-system/internal/config"
 	"fleet-management-system/internal/fleet/vehicle"
 	"log"
+	"os"
 
 	vehicleHTTP "fleet-management-system/internal/transport/http/vehicle"
 
@@ -14,35 +14,24 @@ import (
 
 	mqttConsumer "fleet-management-system/internal/transport/mqtt"
 
+	database "fleet-management-system/internal/infra/postres"
+	rabbitmqConn "fleet-management-system/internal/infra/rabbitmq"
 	rabbitmq "fleet-management-system/internal/transport/rabbitmq"
-
-	amqp "github.com/rabbitmq/amqp091-go"
 )
 
 func main() {
-	if err := godotenv.Load(); err != nil {
-		log.Fatal("Error .env failed to load")
+	if os.Getenv("APP_ENV") == "" {
+		_ = godotenv.Load()
 	}
 
 	cfg := config.Load()
 
-	db, err := sql.Open("postgres", cfg.PostgresDSN())
+	db := database.ConnectPostgres(cfg)
+	defer db.Close()
 
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	if err := db.Ping(); err != nil {
-		log.Fatal("failed to connect database:", err)
-	}
-
-	conn, err := amqp.Dial(cfg.RabbitMQURL())
-
-	if err != nil {
-		log.Fatal("failed to connect rabbitmq:", err)
-	}
-
+	conn, ch := rabbitmqConn.MustConnect(cfg)
 	defer conn.Close()
+	defer ch.Close()
 
 	publisher, err := rabbitmq.NewPublisher(conn)
 	if err != nil {

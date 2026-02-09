@@ -1,0 +1,54 @@
+version: "3.9"
+
+services:
+  server:
+    build: .
+    container_name: fleet-server
+    command: ./server
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env.docker
+    depends_on:
+      - postgres
+      - mosquitto
+      - rabbitmq
+
+  geofence-worker:
+    build: .
+    container_name: geofence-worker
+    command: ./geofence-worker
+    env_file:
+      - .env.docker
+    depends_on:
+      - rabbitmq
+  
+  mqtt-publisher:
+    build: .
+    container_name: mqtt-publisher
+    command: ./mqtt-publisher
+    env_file:
+      - .env.docker
+    depends_on:
+      - mosquitto
+    profiles:
+      - mock
+      
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: fleet_app
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: mosquitto
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"

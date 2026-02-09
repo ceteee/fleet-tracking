@@ -5,6 +5,7 @@ import (
 	"fleet-management-system/internal/config"
 	"log"
 	"math/rand/v2"
+	"os"
 
 	"time"
 
@@ -20,8 +21,8 @@ type LocationPayload struct {
 }
 
 func main() {
-	if err := godotenv.Load(); err != nil {
-		log.Fatal("Error .env failed to load")
+	if os.Getenv("APP_ENV") == "" {
+		_ = godotenv.Load()
 	}
 
 	cfg := config.Load()

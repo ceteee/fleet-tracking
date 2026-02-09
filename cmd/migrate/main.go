@@ -12,8 +12,8 @@ import (
 )
 
 func main() {
-	if err := godotenv.Load(); err != nil {
-		log.Fatal("Error .env failed to load")
+	if os.Getenv("APP_ENV") == "" {
+		_ = godotenv.Load()
 	}
 
 	cfg := config.Load()

@@ -41,7 +41,7 @@ func Load() *Config {
 		DBHost: getEnv("DB_HOST", "localhost"),
 		DBPort: getEnv("DB_POST", "5432"),
 		DBUser: getEnv("DB_USER", "postgres"),
-		DBPass: getEnv("DB_PASS", "chrstmbn"),
+		DBPass: getEnv("DB_PASS", "postgres"),
 		DBName: getEnv("DB_NAME", "fleet_app"),
 
 		// MQTT
