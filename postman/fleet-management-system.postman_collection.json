@@ -1,0 +1,111 @@
+{
+	"info": {
+		"_postman_id": "5ec8d8ce-053f-4b50-8f07-56def8fd3f52",
+		"name": "fleet-management-system",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18710673"
+	},
+	"item": [
+		{
+			"name": "create-record",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"vehicle_id\": \"B1234XYZ\",\n  \"latitude\": -190.2088,\n  \"longitude\": 206.8456,\n  \"timestamp\": 1715003456\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{fleet}}/vehicles/locations",
+					"host": [
+						"{{fleet}}"
+					],
+					"path": [
+						"vehicles",
+						"locations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "last-location",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{fleet}}/vehicles/:vehicle_id/location",
+					"host": [
+						"{{fleet}}"
+					],
+					"path": [
+						"vehicles",
+						":vehicle_id",
+						"location"
+					],
+					"variable": [
+						{
+							"key": "vehicle_id",
+							"value": "B1234XYZ"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "location-history",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"vehicle_id\": \"B1236XYZ\",\n  \"latitude\": -190.2088,\n  \"longitude\": 206.8456,\n  \"timestamp\": 1715003456\n}"
+				},
+				"url": {
+					"raw": "{{fleet}}/vehicles/:vehicle_id/history?start=1770614290&end=1770614304",
+					"host": [
+						"{{fleet}}"
+					],
+					"path": [
+						"vehicles",
+						":vehicle_id",
+						"history"
+					],
+					"query": [
+						{
+							"key": "start",
+							"value": "1770614290"
+						},
+						{
+							"key": "end",
+							"value": "1770614304"
+						}
+					],
+					"variable": [
+						{
+							"key": "vehicle_id",
+							"value": "B1234XYZ"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
